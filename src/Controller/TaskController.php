@@ -36,7 +36,6 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->em->persist($task);
             $this->em->flush();
 
@@ -55,7 +54,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');

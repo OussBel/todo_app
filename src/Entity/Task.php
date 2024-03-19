@@ -56,24 +56,41 @@ class Task
         return $this->title;
     }
 
-    public function setTitle($title): void
+    public function setTitle($title): static
     {
         $this->title = $title;
+
+        return $this;
     }
 
-    public function getContent(): ?string
+    public function getContent(): void
     {
-        return $this->content;
+         $this->content;
+
     }
 
-    public function setContent($content): void
+    public function setContent($content): static
     {
         $this->content = $content;
+
+        return $this;
+
     }
 
-    public function isDone(): ?bool
+    /**
+     * @return bool|null
+     */
+    public function getIsDone(): ?bool
     {
         return $this->isDone;
+    }
+
+    /**
+     * @param bool|null $isDone
+     */
+    public function setIsDone(?bool $isDone): void
+    {
+        $this->isDone = $isDone;
     }
 
     public function toggle($flag): void
