@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Security\Voter\TaskVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TaskController extends AbstractController
 {
@@ -28,14 +30,18 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
+    #[IsGranted(TaskVoter::CREATE)]
     public function createAction(Request $request): RedirectResponse|Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
+        $loggedInUser = $this->getUser();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($loggedInUser);
             $this->em->persist($task);
             $this->em->flush();
 
@@ -48,6 +54,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
+    #[IsGranted(TaskVoter::EDIT, subject: 'task')]
     public function editAction(Task $task, Request $request): RedirectResponse|Response
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -64,11 +71,12 @@ class TaskController extends AbstractController
 
         return $this->render('task/edit.html.twig', [
             'form' => $form,
-            'task' => $task,
+            'task' => $task
         ]);
     }
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+    #[IsGranted(TaskVoter::EDIT, subject: 'task')]
     public function toggleTaskAction(Task $task): RedirectResponse
     {
         $task->toggle(!$task->isDone());
@@ -80,6 +88,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
+    #[IsGranted(TaskVoter::EDIT, subject: 'task')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
         $this->em->remove($task);

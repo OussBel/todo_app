@@ -3,8 +3,14 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('task_create')}) }}
-        {{ form_widget(form) }}
-
+        <div class="form-group mt-5">
+            {{ form_label(form.title, 'Title' )}}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.content, 'Content') }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        </div>
         <button type="submit" class="btn btn-success pull-right">Ajouter</button>
         {{ form_end(form) }}
 

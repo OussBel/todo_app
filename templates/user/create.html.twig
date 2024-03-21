@@ -6,7 +6,25 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('user_create')}) }}
-        {{ form_widget(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.username, 'Username') }}
+            {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.password.first, 'Mot de passe', {'label_attr': {'class': 'required'}}) }}
+            {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.password.second, 'Tapez le mot de passe à nouveau', {'label_attr': {'class': 'required'}}) }}
+            {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.email, 'Adresse email', {'label_attr': {'class': 'required'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}, 'required': true}) }}
+        </div>
 
         <button type="submit" class="btn btn-success pull-right">Ajouter</button>
         {{ form_end(form) }}

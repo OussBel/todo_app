@@ -51,31 +51,44 @@ class Task
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title): static
+    /**
+     * @param string|null $title
+     * @return Task
+     */
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getContent(): void
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
     {
-         $this->content;
-
+        return $this->content;
     }
 
-    public function setContent($content): static
+    /**
+     * @param string|null $content
+     * @return Task
+     */
+    public function setContent(?string $content): static
     {
         $this->content = $content;
 
         return $this;
-
     }
+
 
     /**
      * @return bool|null
