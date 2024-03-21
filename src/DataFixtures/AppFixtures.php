@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
 
         //admin
         $adminUser = new User();
-        $adminUser->setUsername('admin@todo.fr')
+        $adminUser->setUsername('admin')
             ->setEmail('admin@todo.fr')
             ->setPassword($this->passwordHasher->hashPassword($user, 'admin'))
             ->setRoles(['ROLE_ADMIN']);

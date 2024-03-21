@@ -88,7 +88,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    #[IsGranted(TaskVoter::EDIT, subject: 'task')]
+    #[IsGranted(TaskVoter::DELETE, subject: 'task')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
         $this->em->remove($task);

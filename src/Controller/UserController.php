@@ -33,13 +33,12 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'user_create')]
     public function createAction(Request $request): RedirectResponse|Response
     {
-       $user = new User();
+        $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
