@@ -30,9 +30,9 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
-    #[IsGranted(TaskVoter::CREATE)]
     public function createAction(Request $request): RedirectResponse|Response
     {
+
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
@@ -79,7 +79,7 @@ class TaskController extends AbstractController
     #[IsGranted(TaskVoter::EDIT, subject: 'task')]
     public function toggleTaskAction(Task $task): RedirectResponse
     {
-        $task->toggle(!$task->isDone());
+        $task->toggle(!$task->getIsDone());
         $this->em->flush();
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
