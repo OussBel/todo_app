@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
 
         //admin
         $adminUser = new User();
-        $adminUser->setUsername('admin@todo.fr')
+        $adminUser->setUsername('admin')
             ->setEmail('admin@todo.fr')
             ->setPassword($this->passwordHasher->hashPassword($user, 'admin'))
             ->setRoles(['ROLE_ADMIN']);
@@ -57,14 +57,12 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $task = new Task();
 
-            $task
-                ->setTitle($faker->word)
+            $task->setTitle($faker->word)
                 ->setContent($faker->paragraph)
                 ->setUser($anonymousUser)
                 ->setIsDone(false);
 
             $manager->persist($task);
-
 
         }
 

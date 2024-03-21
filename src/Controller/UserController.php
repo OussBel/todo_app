@@ -16,7 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class UserController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface      $em,
-                                private readonly UserPasswordHasherInterface $passwordHasher)
+                                private readonly UserPasswordHasherInterface $passwordHasher
+    )
     {
     }
 
@@ -38,7 +39,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
