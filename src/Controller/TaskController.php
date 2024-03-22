@@ -26,7 +26,14 @@ class TaskController extends AbstractController
     {
         $tasks = $taskRepository->findAll();
 
-        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
+        $filteredTasks = [];
+        foreach ($tasks as $task) {
+            if ($this->isGranted(TaskVoter::EDIT, $task)) {
+                $filteredTasks[] = $task;
+            }
+        }
+
+        return $this->render('task/list.html.twig', ['tasks' => $filteredTasks]);
     }
 
     #[Route('/tasks/create', name: 'task_create')]
@@ -104,6 +111,13 @@ class TaskController extends AbstractController
     {
         $completedTasks = $taskRepository->findBy(['isDone' => true]);
 
-        return $this->render('task/list.html.twig', ['tasks' => $completedTasks]);
+        $filteredTasks = [];
+        foreach ($completedTasks as $task) {
+            if ($this->isGranted(TaskVoter::EDIT, $task)) {
+                $filteredTasks[] = $task;
+            }
+        }
+
+        return $this->render('task/list.html.twig', ['tasks' => $filteredTasks]);
     }
 }

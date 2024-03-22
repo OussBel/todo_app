@@ -6,7 +6,37 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
-        {{ form_widget(form) }}
+
+
+        <div class="form-group">
+            {{ form_label(form.username, "Nom d'utilisateur", {'attr': {'class' : 'form-label'}}) }}
+            {{ form_widget(form.username, {'attr': {'class' : 'form-control'}}) }}
+            {% if form_errors(form.username) %}
+                <div class="alert alert-danger error-message">{{ form_errors(form.username) }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.password.first, "Mot de passe", {'attr': {'class' : 'form-label'}}) }}
+            {{ form_widget(form.password.first, {'attr': {'class' : 'form-control'}}) }}
+            {% if form_errors(form.password.first) %}
+                <div class="alert alert-danger error-message">{{ form_errors(form.password.first) }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.password.second, "Tapez le mot de passe à nouveau", {'attr': {'class' : 'form-label'}}) }}
+            {{ form_widget(form.password.second, {'attr': {'class' : 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email, "Adresse email", {'attr': {'class' : 'form-label'}}) }}
+            {{ form_widget(form.email, {'attr': {'class' : 'form-control'}}) }}
+            {% if form_errors(form.email) %}
+                <div class="alert alert-danger error-message">{{ form_errors(form.email) }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.roles, "Rôles", {'attr': {'class' : 'form-label'}}) }}
+            {{ form_widget(form.roles, {'attr': {'class' : 'form-control'}}) }}
+        </div>
 
         <button type="submit" class="btn btn-success pull-right">Modifier</button>
         {{ form_end(form) }}
