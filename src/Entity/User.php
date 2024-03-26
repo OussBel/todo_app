@@ -6,11 +6,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity('email', message: 'Cet émail existe déjà')]
+#[UniqueEntity('username', message: "Ce nom d'utilisateur existe déjà")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,6 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(message: "L'émail {{ value }} n'est pas valide")]
     private ?string $email = null;
 
     /**
@@ -31,9 +36,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Length(
+        min: 6,
+        max: 1000,
+        minMessage: "Le mot de passe doit avoir au moins {{ limit }} caractères",
+        maxMessage: "Le mot de passe ne doit pas dépasser {{ limit }} caractères "
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\length(
+        min: 4,
+        max: 255,
+        minMessage: "Le mot de passe doit avoir au moins {{ limit }} caractères",
+        maxMessage: "Le mot de passe ne doit pas dépasser {{ limit }} caractères "
+    )]
     private ?string $username = null;
 
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user', orphanRemoval: true)]
@@ -68,19 +85,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
+     * @return list<string>
      * @see UserInterface
      *
-     * @return list<string>
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
