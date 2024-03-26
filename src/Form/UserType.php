@@ -28,9 +28,9 @@ class UserType extends AbstractType
             ])
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('roles', ChoiceType::class, [
-                'choices'  => [
-                    'Administrateur' => 'ROLE_ADMIN',
-                    'Utilisateur' => 'ROLE_USER',
+                'choices' => [
+                    "Administrateur" => "ROLE_ADMIN",
+                    "Utilisateur" => "ROLE_USER",
                 ],
             ])
             ->get('roles')
@@ -44,12 +44,13 @@ class UserType extends AbstractType
                     return explode(', ', $rolesAsString);
                 }
             ));
-    }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+
+        function configureOptions(OptionsResolver $resolver): void
+        {
+            $resolver->setDefaults([
+                'data_class' => User::class,
+            ]);
+        }
     }
 }

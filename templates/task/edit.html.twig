@@ -7,11 +7,17 @@
         <div class="form-group">
             {{ form_label(form.title, 'Title') }}
             {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {% if form_errors(form.title) %}
+                <div class="alert alert-danger error-message">{{ form_errors(form.title) }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
             {{ form_label(form.content, 'Content') }}
             {{ form_widget(form.content, {'attr': {'class': 'form-control'} } ) }}
+            {% if form_errors(form.content) %}
+                <div class="alert alert-danger error-message">{{ form_errors(form.content) }}</div>
+            {% endif %}
         </div>
 
         <button type="submit" class="btn btn-success pull-right">Modifier</button>
