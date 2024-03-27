@@ -34,6 +34,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
+
         //admin
         $adminUser = new User();
         $adminUser->setUsername('admin')
